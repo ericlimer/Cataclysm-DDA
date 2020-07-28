@@ -395,6 +395,17 @@ void overmapbuffer::signal_hordes( const tripoint &center, const int sig_power )
     }
 }
 
+void overmapbuffer::signal_nemesis( const tripoint &pos, const int sig_power )
+{
+
+    const auto radius = sig_power;
+    for( auto &om : get_overmaps_near( pos, radius ) ) {
+
+        om->signal_nemesis( pos, sig_power );
+    
+    }
+}
+
 void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)

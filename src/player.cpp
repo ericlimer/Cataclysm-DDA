@@ -296,6 +296,7 @@ static const trait_id trait_GOODCARDIO( "GOODCARDIO" );
 static const trait_id trait_GOODCARDIO2( "GOODCARDIO2" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
+static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -5603,6 +5604,10 @@ void player::suffer()
 
         if (has_trait( trait_VOMITOUS ) && one_in(4200)) {
             vomit();
+        }
+
+        if( has_trait( trait_HAS_NEMESIS ) ) {
+        overmap_buffer.signal_nemesis( global_sm_location(), 10000 );
         }
 
         if (has_trait( trait_SHOUT1 ) && one_in(3600)) {

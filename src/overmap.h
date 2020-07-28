@@ -303,6 +303,7 @@ class overmap
         const city &get_nearest_city( const tripoint &p ) const;
 
         void signal_hordes( const tripoint &p, int sig_power );
+        void signal_nemesis( const tripoint &p, int sig_power );
         void process_mongroups();
         void move_hordes();
 
@@ -387,6 +388,7 @@ class overmap
                                     const point &sector, bool place_optional );
 
         void place_mongroups();
+        void place_nemesis();
         void place_radios();
 
         void add_mon_group( const mongroup &group );

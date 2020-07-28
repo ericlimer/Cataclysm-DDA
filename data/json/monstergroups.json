@@ -524,6 +524,16 @@
       { "monster" : "mon_graboid", "freq" : 30, "cost_multiplier" : 20 },
       { "monster" : "mon_halfworm", "freq" : 0, "cost_multiplier" : 0 }
     ]
+    },{
+      "type":"monstergroup",
+      "name" : "GROUP_NEMESIS",
+      "default" : "mon_zombie_brute",
+      "monsters" : [
+        { "monster" : "mon_zombie_brute", "freq" : 1000, "cost_multiplier" : 0 },
+        { "monster" : "mon_zombie_hulk", "freq" : 1000, "cost_multiplier" : 0 },
+        { "monster" : "mon_skeleton_hulk", "freq" : 1000, "cost_multiplier" : 0 },
+        { "monster" : "mon_zombie_master", "freq" : 1000, "cost_multiplier" : 0 }
+      ]
   },{
     "type":"monstergroup",
     "name" : "GROUP_ZOMBIE",

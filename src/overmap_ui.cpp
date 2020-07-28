@@ -504,6 +504,12 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                             // Hordes show as +
                             ter_sym = '+';
                             break;
+                        }
+                        if( mgp->horde_behaviour == "nemesis") {
+                            //show nemesis hords as a red &
+                            ter_color = c_red;
+                            ter_sym = '&';
+                            break;
                         } else {
                             // Regular groups show as -
                             ter_sym = '-';

@@ -163,6 +163,7 @@ Xcode/
 
 # gdb
 .gdb_history
+<<<<<<< Updated upstream
 Cataclysm-lib-vcpkg-static-Debug-x64.lib
 Cataclysm-lib-vcpkg-static-Release-x64.lib
 msvc-full-features/Cataclysm-lib-vcpkg-static.vcxproj
@@ -172,6 +173,29 @@ msvc-full-features/Cataclysm-vcpkg-static.vcxproj
 msvc-full-features/JsonFormatter.vcxproj
 msvc-full-features/style-json.ps1
 msvc-full-features/vcpkg.json
+=======
+msvc-full-features/Cataclysm-lib-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm-test-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm_lib.vcxproj
+msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg
+msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg
+msvc-full-features/Cataclysm_lib.vcxproj
+msvc-full-features/Cataclysm-vcpkg-static.sln
+msvc-full-features/Cataclysm-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm-vcpkg.sln
+msvc-full-features/Cataclysm-vcpkg.vcxproj
+msvc-full-features/Cataclysm.sln
+msvc-full-features/Cataclysm.vcxproj
+msvc-full-features/distribute.bat
+msvc-full-features/JsonFormatter.vcxproj
+msvc-full-features/prebuild.cmd
+msvc-full-features/stdafx.cpp
+msvc-full-features/stdafx.h
+msvc-full-features/style-json.ps1
+msvc-full-features/Tests.vcxproj
+msvc-full-features/vcpkg.json
+msvc-full-features/WINDEPEND.props
+>>>>>>> Stashed changes
 msvc-full-features/vcpkg_installed/vcpkg/status
 msvc-full-features/vcpkg_installed/vcpkg/info/bzip2_1.0.6-5_x64-windows-static.list
 msvc-full-features/vcpkg_installed/vcpkg/info/freetype_2.10.2_x64-windows-static.list
@@ -467,3 +491,13 @@ msvc-full-features/vcpkg_installed/x64-windows-static/share/Vorbis/VorbisTargets
 msvc-full-features/vcpkg_installed/x64-windows-static/share/zlib/copyright
 msvc-full-features/vcpkg_installed/x64-windows-static/share/zlib/usage
 msvc-full-features/vcpkg_installed/x64-windows-static/share/zlib/vcpkg_abi_info.txt
+msvc-full-features/Cataclysm_lib.vcxproj
+msvc-full-features/Cataclysm-vcpkg.sln
+msvc-full-features/Cataclysm-vcpkg.vcxproj
+msvc-full-features/Cataclysm.sln
+msvc-full-features/Cataclysm.vcxproj
+msvc-full-features/distribute.bat
+msvc-full-features/prebuild.cmd
+msvc-full-features/stdafx.h
+msvc-full-features/Tests.vcxproj
+msvc-full-features/WINDEPEND.props

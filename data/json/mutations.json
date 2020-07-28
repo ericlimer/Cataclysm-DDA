@@ -70,6 +70,13 @@
         "threshreq" : ["THRESH_MOUSE"],
         "category" : ["MOUSE"]
     },{
+      "type": "mutation",
+      "id": "HAS_NEMESIS",
+      "name": { "str": "Hunted" },
+      "points": -2,
+      "description": "An evil and powerful being is tracking you supernaturally. You must stay on the move lest it finally catch its prey... or stand your ground and fight.",
+      "starting_trait": true
+    },{
         "type" : "mutation",
         "id" : "QUICK",
         "name" : "Quick",

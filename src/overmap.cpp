@@ -1809,6 +1809,9 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
         if( !mg.horde ) {
             continue;
         }
+        if( mg.horde_behaviour == "nemesis"){ // nemesis hordes have their own attraction function
+            continue;
+        }
         const int dist = rl_dist( p, mg.pos );
         if( sig_power < dist ) {
             continue;
@@ -1835,6 +1838,18 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
                 mg.set_interest( min_capped_inter );
                 add_msg( m_debug, "horde set interest %d dist %d", min_capped_inter, dist );
             }
+        }
+    }
+}
+
+void overmap::signal_nemesis( const tripoint &p, const int sig_power )
+{
+    for( auto &elem : zg ) {
+        mongroup &mg = elem.second;
+        
+        if( mg.horde_behaviour == "nemesis" ) {
+            mg.set_target( p.x, p.y ); 
+            mg.set_interest( sig_power );
         }
     }
 }
@@ -3347,6 +3362,30 @@ void overmap::place_mongroups()
                                      rng( 20, 40 ), rng( 30, 50 ) ) );
         }
     }
+}
+
+void overmap::place_nemesis()
+{
+    
+    int nemesis_exists = 0;
+    for( auto &elem : zg ) {
+        mongroup &mg = elem.second;
+        if( mg.horde_behaviour == "nemesis" ) {
+           nemesis_exists = 1;
+           //some stuff about overmap edges here maybe eventually 
+        }
+    }
+
+    if( !nemesis_exists ) {
+            mongroup nemesis = mongroup( "GROUP_NEMESIS", tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
+                                 OMAPY * 2 - 1 ), 0 ),
+                                 rng( 20, 40 ), rng( 30, 50 ), tripoint( 2, 2, 0 ), 99, false, true, false );
+            nemesis.horde_behaviour = "nemesis";
+            add_mon_group( nemesis );
+                                  
+            debugmsg( "nemesis horde created in place nemesis" );
+    }
+ 
 }
 
 point overmap::global_base_point() const
