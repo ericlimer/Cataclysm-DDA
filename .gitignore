@@ -191,3 +191,15 @@ Xcode/
 /.flatpak-builder/
 /repo/
 /build-dir/
+msvc-full-features/Cataclysm-lib-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm-test-vcpkg-static.vcxproj
+msvc-full-features/JsonFormatter.vcxproj
+msvc-full-features/Cataclysm-lib-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm-test-vcpkg-static.vcxproj
+msvc-full-features/JsonFormatter.vcxproj
+msvc-full-features/Cataclysm-lib-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm-test-vcpkg-static.vcxproj
+msvc-full-features/JsonFormatter.vcxproj
+msvc-full-features/Cataclysm-lib-vcpkg-static.vcxproj
+msvc-full-features/Cataclysm-test-vcpkg-static.vcxproj
+msvc-full-features/JsonFormatter.vcxproj
