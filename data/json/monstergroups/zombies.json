@@ -119,6 +119,18 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_NEMESIS",
+    "default": "mon_zombie_tough",
+    "//": "nemesis squad",
+    "monsters": [
+      { "monster": "mon_zombie_brute", "freq": 1000, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_master", "freq": 1000, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_hollow", "freq": 300, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_thorny", "freq": 13, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_VANILLA",
     "default": "mon_zombie",
     "monsters": [

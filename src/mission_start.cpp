@@ -41,6 +41,8 @@ static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 static const mtype_id mon_zombie_master( "mon_zombie_master" );
 static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
+static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
+
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -122,6 +124,21 @@ void mission_start::kill_horde_master( mission *miss )
     }
     tile.add_spawn( mon_zombie_necro, 2, { SEEX, SEEY, site.z() } );
     tile.add_spawn( mon_zombie_hulk, 1, { SEEX, SEEY, site.z() } );
+    tile.save();
+}
+
+void mission_start::kill_nemesis( mission *miss )
+{
+    // Pick one of the below locations for the horde to haunt
+    const auto center = get_player_character().global_omt_location();
+    tripoint_abs_omt site = mission_util::random_house_in_closest_city();
+    miss->target = site;
+    overmap_buffer.reveal( site, 6 );
+    
+    tinymap tile;
+    tile.load( project_to<coords::sm>( site ), false );
+    point p( SEEX, SEEY );
+    tile.place_spawns(GROUP_NEMESIS, 1, p, p, 1, miss->uid );
     tile.save();
 }
 

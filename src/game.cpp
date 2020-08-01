@@ -242,6 +242,7 @@ static const itype_id itype_rope_30( "rope_30" );
 static const itype_id itype_swim_fins( "swim_fins" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -253,6 +254,7 @@ static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
+
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -810,6 +812,10 @@ bool game::start_game()
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, character_id() );
+        mission->assign( u );
+    }
+    if( u.has_trait( trait_id( "HAS_NEMESIS" ) ) ) {
+        const auto mission = mission::reserve_new( mission_type_id( "MISSION_KILL_NEMESIS" ), character_id() );
         mission->assign( u );
     }
 

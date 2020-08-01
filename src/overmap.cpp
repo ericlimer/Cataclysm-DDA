@@ -60,6 +60,7 @@ static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
 class map_extra;
 
@@ -1486,6 +1487,7 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
+    place_nemesis();
     place_radios();
     dbg( D_INFO ) << "overmap::generate done";
 }
@@ -2108,6 +2110,10 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
         if( sig_power < dist ) {
             continue;
         }
+        if( mg.horde_behaviour == "nemesis" ) {
+            // nemesis hordes are signaled to the player by their own function and dont react to noise
+             continue;
+        }
         // TODO: base this in monster attributes, foremost GOODHEARING.
         const int inter_per_sig_power = 15; //Interest per signal value
         const int min_initial_inter = 30; //Min initial interest for horde
@@ -2130,6 +2136,19 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
                 mg.set_interest( min_capped_inter );
                 add_msg( m_debug, "horde set interest %d dist %d", min_capped_inter, dist );
             }
+        }
+    }
+}
+
+void overmap::signal_nemesis( const tripoint_rel_sm &p_rel, const int sig_power )
+{
+    tripoint_om_sm p( p_rel.raw() );
+    for( auto &elem : zg ) {
+        mongroup &mg = elem.second;
+        
+        if( mg.horde_behaviour == "nemesis" ) {
+            mg.set_target( p.xy() );
+            mg.set_interest( sig_power );
         }
     }
 }
@@ -4317,6 +4336,32 @@ void overmap::place_mongroups()
                                  OMAPY * 2 - 1 ), 0 ),
                                  rng( 20, 40 ), rng( 30, 50 ) ) );
     }
+}
+
+void overmap::place_nemesis()
+{
+
+    int nemesis_exists = 0;
+        for( auto &elem : zg ) {
+            mongroup &mg = elem.second;
+                if (mg.horde_behaviour == "nemesis") {
+                    nemesis_exists = 1;
+                    break;
+                }
+            }
+
+
+  if( !nemesis_exists ) {
+            mongroup nemesis = mongroup( GROUP_NEMESIS, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
+                                 OMAPY * 2 - 1 ), 0 ),
+                                 rng( 20, 40 ), rng( 30, 50 ) );
+            nemesis.horde = true;
+            nemesis.horde_behaviour = "nemesis";
+            add_mon_group( nemesis );
+                                  
+            debugmsg( "nemesis horde created in place nemesis" );
+    }
+ 
 }
 
 point_abs_omt overmap::global_base_point() const

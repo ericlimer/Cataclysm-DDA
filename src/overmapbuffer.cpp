@@ -486,6 +486,19 @@ void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_
     }
 }
 
+void overmapbuffer::signal_nemesis( const tripoint_abs_sm &p, const int sig_power )
+{
+
+    const auto radius = sig_power;
+    for( auto &om : get_overmaps_near( p, radius ) ) {
+        const point_abs_sm abs_pos_om = project_to<coords::sm>( om->pos() );
+        const tripoint_rel_sm rel_pos = p - abs_pos_om;
+        // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
+        // for processing as the monster group stores is location as relative coordinates, too.
+        om->signal_nemesis( rel_pos, sig_power );
+    }
+}
+
 void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
