@@ -1487,7 +1487,7 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
-    place_nemesis();
+    //place_nemesis();
     place_radios();
     dbg( D_INFO ) << "overmap::generate done";
 }
@@ -4338,30 +4338,13 @@ void overmap::place_mongroups()
     }
 }
 
-void overmap::place_nemesis()
+void overmap::place_nemesis( const tripoint_abs_omt p )
 {
-
-    int nemesis_exists = 0;
-        for( auto &elem : zg ) {
-            mongroup &mg = elem.second;
-                if (mg.horde_behaviour == "nemesis") {
-                    nemesis_exists = 1;
-                    break;
-                }
-            }
-
-
-  if( !nemesis_exists ) {
-            mongroup nemesis = mongroup( GROUP_NEMESIS, tripoint( rng( 0, OMAPX * 2 - 1 ), rng( 0,
-                                 OMAPY * 2 - 1 ), 0 ),
-                                 rng( 20, 40 ), rng( 30, 50 ) );
+            tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
+            mongroup nemesis = mongroup( GROUP_NEMESIS, pos_sm.raw(), 1, 1 );
             nemesis.horde = true;
             nemesis.horde_behaviour = "nemesis";
             add_mon_group( nemesis );
-                                  
-            debugmsg( "nemesis horde created in place nemesis" );
-    }
- 
 }
 
 point_abs_omt overmap::global_base_point() const

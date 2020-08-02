@@ -499,6 +499,17 @@ void overmapbuffer::signal_nemesis( const tripoint_abs_sm &p, const int sig_powe
     }
 }
 
+void overmapbuffer::add_nemesis( const tripoint_abs_omt &p)
+{
+    debugmsg( "add_nemesis in overmap buffer is running" );
+    ///ABS_OMT TO ABS_OM
+    const tripoint_abs_om loc = project_to<coords::om>( p );
+
+    overmap *om = get_existing( loc.xy() );
+    om->place_nemesis(p);
+
+}
+
 void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)

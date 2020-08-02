@@ -130,16 +130,11 @@ void mission_start::kill_horde_master( mission *miss )
 void mission_start::kill_nemesis( mission *miss )
 {
     // Pick one of the below locations for the horde to haunt
+    debugmsg( "kill nemesis mission setup is running" );
     const auto center = get_player_character().global_omt_location();
     tripoint_abs_omt site = mission_util::random_house_in_closest_city();
     miss->target = site;
-    overmap_buffer.reveal( site, 6 );
-    
-    tinymap tile;
-    tile.load( project_to<coords::sm>( site ), false );
-    point p( SEEX, SEEY );
-    tile.place_spawns(GROUP_NEMESIS, 1, p, p, 1, miss->uid );
-    tile.save();
+    overmap_buffer.add_nemesis(site);
 }
 
 /*

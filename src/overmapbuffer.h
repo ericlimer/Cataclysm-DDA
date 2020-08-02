@@ -396,6 +396,10 @@ class overmapbuffer
          */
         void signal_nemesis( const tripoint_abs_sm &p, int sig_power );
         /**
+         * adds a nemesis horde into the hordes list of the overmap where the Kill Nemesis mision is targeted
+         */
+        void overmapbuffer::add_nemesis( const tripoint_abs_omt &p );
+        /**
          * Process nearby monstergroups (dying mostly).
          */
         void process_mongroups();

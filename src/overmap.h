@@ -498,7 +498,7 @@ class overmap
             bool place_optional, bool must_be_unexplored );
 
         void place_mongroups();
-        void place_nemesis();
+        void place_nemesis( const tripoint_abs_omt p );
         void place_radios();
 
         void add_mon_group( const mongroup &group );
