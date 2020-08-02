@@ -815,7 +815,8 @@ bool game::start_game()
         mission->assign( u );
     }
     if( u.has_trait( trait_id( "HAS_NEMESIS" ) ) ) {
-        const auto mission = mission::reserve_new( mission_type_id( "MISSION_KILL_NEMESIS" ), character_id() );
+        const auto mission = mission::reserve_new( mission_type_id( "MISSION_KILL_NEMESIS" ), 
+                                                    character_id() );
         mission->assign( u );
     }
 

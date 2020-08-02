@@ -1487,7 +1487,6 @@ void overmap::generate( const overmap *north, const overmap *east,
 
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
-    //place_nemesis();
     place_radios();
     dbg( D_INFO ) << "overmap::generate done";
 }
@@ -2147,6 +2146,7 @@ void overmap::signal_nemesis( const tripoint_rel_sm &p_rel, const int sig_power 
         mongroup &mg = elem.second;
         
         if( mg.horde_behaviour == "nemesis" ) {
+            // if the horde is a nemesis, we set its target directly on the player
             mg.set_target( p.xy() );
             mg.set_interest( sig_power );
         }

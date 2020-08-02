@@ -390,9 +390,9 @@ class overmapbuffer
         void signal_hordes( const tripoint_abs_sm &center, int sig_power );
         /**
          * Signal nemesis horde to player location
-         * @param center The origin of the signal, hordes (that recognize the signal) want to go
-         * to there. In global submap coordinates.
-         * @param sig_power The signal strength, higher values means it visible farther away.
+         * @param p is the player's location, which functions as the signal origin
+         * only the nemesis horde can 'hear' this signal.
+         * @param sig_power The signal strength.
          */
         void signal_nemesis( const tripoint_abs_sm &p, int sig_power );
         /**

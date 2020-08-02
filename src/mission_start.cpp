@@ -129,10 +129,18 @@ void mission_start::kill_horde_master( mission *miss )
 
 void mission_start::kill_nemesis( mission *miss )
 {
-    // Pick one of the below locations for the horde to haunt
-    debugmsg( "kill nemesis mission setup is running" );
+    // Pick an area for the nemesis to spawn
     const auto center = get_player_character().global_omt_location();
-    tripoint_abs_omt site = mission_util::random_house_in_closest_city();
+    tripoint_abs_omt site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
+    if( site == overmap::invalid_tripoint ) {
+        site = overmap_buffer.find_closest( center, "hotel_tower_1_8", 0, false );
+    }
+    if( site == overmap::invalid_tripoint ) {
+        site = overmap_buffer.find_closest( center, "school_5", 0, false );
+    }
+    if( site == overmap::invalid_tripoint ) {
+        site = overmap_buffer.find_closest( center, "forest_thick", 0, false );
+    }
     overmap_buffer.add_nemesis(site);
 }
 

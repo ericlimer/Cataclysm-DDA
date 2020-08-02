@@ -800,9 +800,6 @@ void draw(
                             ter_color = c_blue;
                         }
                     } 
-                    if( ter_sym == "&" ) {
-                            ter_color = c_red;
-                    }
                 }    
             }
 
