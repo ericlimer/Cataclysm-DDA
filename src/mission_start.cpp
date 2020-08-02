@@ -133,7 +133,6 @@ void mission_start::kill_nemesis( mission *miss )
     debugmsg( "kill nemesis mission setup is running" );
     const auto center = get_player_character().global_omt_location();
     tripoint_abs_omt site = mission_util::random_house_in_closest_city();
-    miss->target = site;
     overmap_buffer.add_nemesis(site);
 }
 

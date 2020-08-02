@@ -464,13 +464,14 @@
   {
     "id": "MISSION_KILL_NEMESIS",
     "type": "mission_definition",
-    "name": { "str": "Kill Nemesis" },
-    "goal": "MGOAL_KILL_MONSTER",
+    "name": { "str": "Kill doppelganger" },
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "NEMESIS",
+    "monster_kill_goal": 1,
     "difficulty": 5,
     "value": 200000,
     "urgent": true,
     "start": "kill_nemesis",
-    "end": { "effect": "stop_following" }, 
     "origins": [ "ORIGIN_GAME_START" ],
     "dialogue": {
       "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs…",
