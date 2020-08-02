@@ -12,6 +12,10 @@
 #endif // __GLIBCXX__
 #endif // _GLIBCXX_DEBUG
 
+#ifdef CATA_CATCH_PCH
+#undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
+#define CATCH_CONFIG_IMPL_ONLY
+#endif
 #define CATCH_CONFIG_RUNNER
 #include <algorithm>
 #include <cassert>
@@ -290,6 +294,10 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         srand( seed );
         rng_set_engine_seed( seed );
+
+        // If the run is terminated due to a crash during initialization, we won't
+        // see the seed unless it's printed out in advance, so do that here.
+        printf( "Randomness seeded to: %u\n", seed );
     }
 
     try {

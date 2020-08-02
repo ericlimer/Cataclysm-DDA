@@ -162,7 +162,7 @@ bionic *player::bionic_by_invlet( const int ch )
         return nullptr;
     }
 
-    for( auto &elem : *my_bionics ) {
+    for( bionic &elem : *my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
         }
@@ -172,7 +172,7 @@ bionic *player::bionic_by_invlet( const int ch )
 
 char get_free_invlet( player &p )
 {
-    for( auto &inv_char : bionic_chars ) {
+    for( const char &inv_char : bionic_chars ) {
         if( p.bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
         }
@@ -183,7 +183,7 @@ char get_free_invlet( player &p )
 static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
-    input_context ctxt( "BIONICS" );
+    input_context ctxt( "BIONICS", keyboard_mode::keychar );
 
     werase( window );
     std::string fuel_string;
@@ -611,7 +611,7 @@ void player::power_bionics()
     bionic_menu_mode menu_mode = ACTIVATING;
     int max_scroll_position = 0;
 
-    input_context ctxt( "BIONICS" );
+    input_context ctxt( "BIONICS", keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );

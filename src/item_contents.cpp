@@ -129,14 +129,6 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
     const std::string whitelist_string = whitelist ? _( "whitelist" ) : _( "blacklist" );
     const bool item_id = input == 'i';
     const bool cat_id = input == 'c';
-    std::string id_string;
-
-    if( item_id ) {
-        id_string = _( "item id" );
-    } else if( cat_id ) {
-        id_string = _( "item category" );
-    }
-
     uilist selector_menu;
 
     if( item_id ) {
@@ -730,11 +722,11 @@ bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
     return true;
 }
 
-void item_contents::handle_liquid_or_spill( Character &guy )
+void item_contents::handle_liquid_or_spill( Character &guy, const item *const avoid )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            pocket.handle_liquid_or_spill( guy );
+            pocket.handle_liquid_or_spill( guy, avoid );
         }
     }
 }

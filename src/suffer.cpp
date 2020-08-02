@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "addiction.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -87,6 +88,7 @@ static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
@@ -163,6 +165,8 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_NO_TAKEOFF( "NO_TAKEOFF" );
+static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 static const std::string flag_TOURNIQUET( "TOURNIQUET" );
@@ -299,9 +303,9 @@ void Character::suffer_while_awake( const int current_stim )
     if( !has_trait( trait_DEBUG_STORAGE ) &&
         ( weight_carried() > 4 * weight_capacity() ) ) {
         if( has_effect( effect_downed ) ) {
-            add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, false, 0, true );
         }
     }
     if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -452,7 +456,7 @@ void Character::suffer_from_schizophrenia()
         const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
                                      translation() );
         body_part bp = random_body_part( true );
-        add_effect( effect_formication, 45_minutes, bp );
+        add_effect( effect_formication, 45_minutes, convert_bp( bp ).id() );
         add_msg_if_player( m_bad, "%s", snip );
         return;
     }
@@ -830,14 +834,14 @@ void Character::suffer_from_albinism()
                 continue;
             }
             //percent of "not covered skin"
-            float p = 1.0 - i.get_coverage( bp ) / 100.0;
+            float p = 1.0 - i.get_coverage( bp ) / 100.0f;
             open_percent[bp->token] = open_percent[bp->token] * p;
         }
     }
 
-    const float COVERAGE_LIMIT = 0.01;
+    const float COVERAGE_LIMIT = 0.01f;
     body_part max_affected_bp = num_bp;
-    float max_affected_bp_percent = 0;
+    float max_affected_bp_percent = 0.0f;
     int count_affected_bp = 0;
     for( const std::pair<const body_part, float> &it : open_percent ) {
         const body_part &bp = it.first;
@@ -877,6 +881,23 @@ void Character::suffer_from_albinism()
             mod_pain( 1 );
         } else {
             focus_pool --;
+        }
+    }
+}
+
+void Character::suffer_from_item_dropping()
+{
+    if( has_effect( effect_incorporeal ) ) {
+        std::vector<item *> dump = inv_dump();
+        std::list<item> tumble_items;
+        for( item *dump_item : dump ) {
+            if( !dump_item->has_flag( flag_NO_UNWIELD ) && !dump_item->has_flag( flag_NO_TAKEOFF ) ) {
+                tumble_items.push_back( *dump_item );
+            }
+        }
+        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, tumble_items );
+        for( auto i : dump ) {
+            i_rem( i );
         }
     }
 }
@@ -1225,7 +1246,7 @@ void Character::suffer_from_bad_bionics()
                            _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
         mod_pain( 1 );
         add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+        add_effect( effect_downed, 1_turns, false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
@@ -1244,7 +1265,7 @@ void Character::suffer_from_bad_bionics()
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
         body_part bp = random_body_part( true );
-        add_effect( effect_formication, 10_minutes, bp );
+        add_effect( effect_formication, 10_minutes, convert_bp( bp ).id() );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
         get_power_level() > 1_kJ ) {
@@ -1446,7 +1467,7 @@ void Character::suffer()
     // TODO: Remove this section and encapsulate hp_cur
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
-            add_effect( effect_disabled, 1_turns, elem.first->token, true );
+            add_effect( effect_disabled, 1_turns, elem.first.id(), true );
             get_event_bus().send<event_type::broken_bone>( getID(), elem.first->token );
         }
     }
@@ -1481,6 +1502,7 @@ void Character::suffer()
     }
 
     suffer_in_sunlight();
+    suffer_from_item_dropping();
     suffer_from_other_mutations();
     suffer_from_artifacts();
     suffer_from_radiation();
@@ -1655,9 +1677,9 @@ void Character::mend( int rate_multiplier )
         }
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, bp->token );
+        auto &eff = get_effect( effect_mending, bp );
         if( eff.is_null() ) {
-            add_effect( effect_mending, dur_inc, bp->token, true );
+            add_effect( effect_mending, dur_inc, bp, true );
             continue;
         }
 
@@ -1665,7 +1687,7 @@ void Character::mend( int rate_multiplier )
 
         if( eff.get_duration() >= eff.get_max_duration() ) {
             set_part_hp_cur( bp, 1 );
-            remove_effect( effect_mending, bp->token );
+            remove_effect( effect_mending, bp );
             get_event_bus().send<event_type::broken_bone_mends>( getID(), bp->token );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),

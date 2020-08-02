@@ -693,7 +693,7 @@
     "reload": 500,
     "built_in_mods": [ "bio_powershot" ],
     "ammo_effects": [ "PLASMA" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "id": "unbio_blaster_gun",
@@ -732,6 +732,31 @@
   {
     "type": "recipe",
     "result": "fertilizer_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lsd",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_neoprene",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "water_acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lye_powder",
     "obsolete": true
   },
   {

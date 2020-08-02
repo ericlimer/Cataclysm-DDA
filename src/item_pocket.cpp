@@ -278,6 +278,9 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
 {
+    if( _sealed != rhs._sealed ) {
+        return false;
+    }
     return ( empty() && rhs.empty() ) || std::equal( contents.begin(), contents.end(),
             rhs.contents.begin(), rhs.contents.end(),
     []( const item & a, const item & b ) {
@@ -581,7 +584,7 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
         if( iter->made_of( phase_id::LIQUID ) ) {
             item liquid( *iter );
             iter = contents.erase( iter );
-            liquid_handler::handle_all_liquid( liquid, 1 );
+            liquid_handler::handle_all_liquid( liquid, 1, avoid );
         } else {
             item i_copy( *iter );
             iter = contents.erase( iter );
@@ -680,10 +683,10 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
-    float spoil_multiplier = 1;
+    float spoil_multiplier = 1.0f;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( _sealed ) {
-            spoil_multiplier = 0;
+            spoil_multiplier = 0.0f;
         }
         if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
             it = contents.erase( it );

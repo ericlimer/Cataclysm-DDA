@@ -175,12 +175,13 @@ bool Pickup::query_thief()
 {
     Character &u = get_player_character();
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
     std::string answer = query_popup()
+                         .preferred_keyboard_mode( keyboard_mode::keycode )
                          .allow_cancel( false )
                          .context( "YES_NO_ALWAYS_NEVER" )
-                         .message( "%s", force_uc
+                         .message( "%s", force_uc && !is_keycode_mode_supported()
                                    ? _( "Picking up this item will be considered stealing, continue?  (Case sensitive)" )
                                    : _( "Picking up this item will be considered stealing, continue?" ) )
                          .option( "YES", allow_key ) // yes, steal all items in this location that is selected
@@ -329,6 +330,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             picked_up = it.spill_contents( player_character );
             if( !picked_up ) {
                 break;
+            } else {
+                const int invlet = newit.invlet;
+                newit = it;
+                newit.invlet = invlet;
             }
         // Intentional fallthrough
         case STASH: {
@@ -342,7 +347,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 // successfully added
                 auto &entry = mapPickup[newit.tname()];
                 entry.second += newit.count();
-                entry.first = added_it;
+                entry.first = newit;
                 picked_up = true;
             }
             break;
@@ -608,7 +613,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         std::string action;
         int raw_input_char = ' ';
-        input_context ctxt( "PICKUP" );
+        input_context ctxt( "PICKUP", keyboard_mode::keychar );
         ctxt.register_action( "UP" );
         ctxt.register_action( "DOWN" );
         ctxt.register_action( "RIGHT" );
@@ -1035,10 +1040,12 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 //helper function for Pickup::pick_up
 void show_pickup_message( const PickupMap &mapPickup )
 {
-    for( auto &entry : mapPickup ) {
+    for( const auto &entry : mapPickup ) {
         if( entry.second.first.invlet != 0 ) {
             add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
                      entry.second.first.display_name( entry.second.second ), entry.second.first.invlet );
+        } else if( entry.second.first.count_by_charges() ) {
+            add_msg( _( "You pick up: %s" ), entry.second.first.display_name( entry.second.second ) );
         } else {
             add_msg( _( "You pick up: %d %s" ), entry.second.second,
                      entry.second.first.display_name( entry.second.second ) );
@@ -1049,7 +1056,7 @@ void show_pickup_message( const PickupMap &mapPickup )
 bool Pickup::handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
-        it.contents.spill_open_pockets( c );
+        it.contents.spill_open_pockets( c, /*avoid=*/&it );
 
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents

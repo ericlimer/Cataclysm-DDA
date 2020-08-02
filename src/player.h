@@ -324,7 +324,7 @@ class player : public Character
         bool consume( item_location loc, bool force = false );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume( item &target, bool force = false );
+        bool consume( item &target, bool force = false, item_pocket *parent_pocket = nullptr );
 
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
@@ -367,7 +367,6 @@ class player : public Character
          * @param it Thing to be taken off
          */
         ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
-
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -458,12 +457,6 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
 
-    private:
-        /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::turn_zero;
-        bool bio_soporific_powered_at_last_sleep_check;
-
-    public:
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
@@ -508,7 +501,7 @@ class player : public Character
         int volume;
         const profession *prof;
 
-        bool random_start_location;
+        bool random_start_location = true;
         start_location_id start_location;
 
         weak_ptr_fast<Creature> last_target;
