@@ -502,7 +502,6 @@ void overmapbuffer::signal_nemesis( const tripoint_abs_sm &p, const int sig_powe
 void overmapbuffer::add_nemesis( const tripoint_abs_omt &p)
 {
     debugmsg( "add_nemesis in overmap buffer is running" );
-    ///ABS_OMT TO ABS_OM
     const tripoint_abs_om loc = project_to<coords::om>( p );
 
     overmap *om = get_existing( loc.xy() );
@@ -1448,8 +1447,16 @@ void overmapbuffer::despawn_monster( const monster &critter )
     tripoint_om_sm sm;
     std::tie( omp, sm ) = project_remain<coords::om>( abs_sm );
     overmap &om = get( omp );
-    // Store the monster using coordinates local to the overmap.
-    om.monster_map.insert( std::make_pair( sm, critter ) );
+    // Store the monster using coordinates local to the overmap
+
+    if ( critter.is_nemesis() ) {
+        tripoint_abs_omt abs_omt( ms_to_omt_copy(get_map().getabs( critter.pos() ) ) );
+        om.place_nemesis( abs_omt );
+    } else { 
+        om.monster_map.insert( std::make_pair( sm, critter ) );
+    }
+ // if critter type = nemesis, add nemesis horde to mg list. else, (NORMAL DESPAWN)
+
 }
 
 overmapbuffer::t_notes_vector overmapbuffer::get_notes( int z, const std::string *pattern )

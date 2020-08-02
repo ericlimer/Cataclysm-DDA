@@ -477,7 +477,7 @@
     "description": "A repulsive humanoid, its grotesque muscles throb with an infernal energy. In its twisted visage, which has haunted your dreams since childhood, you can see the demonic reflection of your own face.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": [ "ZOMBIE", "HUMAN", "NEMESIS" ],
     "diff": 5,
     "volume": "875000 ml",
     "weight": "200 kg",
@@ -516,6 +516,7 @@
       "CLIMBS",
       "PUSH_MON",
       "PUSH_VEH",
+      "NEMESIS",
       "FILTHY"
     ]
   },
