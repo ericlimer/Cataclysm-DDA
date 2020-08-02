@@ -131,16 +131,7 @@ void mission_start::kill_nemesis( mission *miss )
 {
     // Pick an area for the nemesis to spawn
     const auto center = get_player_character().global_omt_location();
-    tripoint_abs_omt site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "hotel_tower_1_8", 0, false );
-    }
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "school_5", 0, false );
-    }
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "forest_thick", 0, false );
-    }
+    tripoint_abs_omt site = mission_util::random_house_in_closest_city();
     overmap_buffer.add_nemesis(site);
 }
 
@@ -226,7 +217,7 @@ void mission_start::place_npc_software( mission *miss )
     } else {
         miss->item_id = itype_software_useless;
     }
-
+    
     tripoint_abs_omt place;
     if( type == "house" ) {
         place = mission_util::random_house_in_closest_city();

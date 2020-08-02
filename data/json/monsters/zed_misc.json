@@ -482,7 +482,7 @@
     "volume": "875000 ml",
     "weight": "200 kg",
     "hp": 480,
-    "speed": 130,
+    "speed": 50,
     "material": [ "flesh" ],
     "symbol": "N",
     "color": "white_magenta",
