@@ -1,6 +1,26 @@
 [
   {
+    "id": "bikini_bottom",
+    "type": "ARMOR",
+    "name": { "str": "bikini bottom" },
+    "description": "A simple bikini bottom.",
+    "weight": "32 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "panties",
+    "color": "light_red",
+    "covers": [ "leg_l", "leg_r" ],
+    "coverage": 15,
+    "warmth": 5,
+    "material_thickness": 0.01,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "trunks",
+    "repairs_like": "shorts",
     "type": "ARMOR",
     "name": { "str": "pair of swimming trunks", "str_pl": "pairs of swimming trunks" },
     "description": "A pair of swimming trunks, with netting.",
@@ -15,7 +35,7 @@
     "color": "blue",
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 35,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -32,18 +52,29 @@
     "symbol": "[",
     "looks_like": "wetsuit_spring",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 11,
-    "max_encumbrance": 15,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 14 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 11, 13 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "11 cm",
+        "moves": 130
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "11 cm",
+        "moves": 130
+      }
     ],
     "warmth": 50,
-    "material_thickness": 1,
+    "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -64,7 +95,7 @@
     "coverage": 100,
     "encumbrance": 10,
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -88,7 +119,7 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
@@ -108,10 +139,11 @@
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 16 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -120,7 +152,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 200 }
     ],
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -161,18 +193,28 @@
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "pink",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 2, 4 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "11 cm",
+        "moves": 130
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "11 cm",
+        "moves": 130
+      }
     ],
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -199,6 +241,7 @@
   },
   {
     "id": "shark_suit",
+    "repairs_like": "shark_suit_faraday",
     "type": "ARMOR",
     "name": { "str": "shark suit" },
     "description": "A one piece chainmail suit used by scuba divers for protection against shark bites.  It comes with attached plastic helmet and booties.",
@@ -258,7 +301,7 @@
     "coverage": 100,
     "encumbrance": 10,
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   }

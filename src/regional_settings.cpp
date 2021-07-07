@@ -9,9 +9,9 @@
 
 #include "debug.h"
 #include "enum_conversions.h"
-#include "int_id.h"
 #include "json.h"
 #include "options.h"
+#include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -89,7 +89,7 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
 {
     read_and_set_or_throw<int>( jo, "sparseness_adjacency_factor",
                                 forest_biome.sparseness_adjacency_factor, !overlay );
-    read_and_set_or_throw<std::string>( jo, "item_group", forest_biome.item_group, !overlay );
+    read_and_set_or_throw( jo, "item_group", forest_biome.item_group, !overlay );
     read_and_set_or_throw<int>( jo, "item_group_chance", forest_biome.item_group_chance, !overlay );
     read_and_set_or_throw<int>( jo, "item_spawn_iterations", forest_biome.item_spawn_iterations,
                                 !overlay );
@@ -305,6 +305,27 @@ static void load_overmap_forest_settings(
                                     overmap_forest_settings.river_floodplain_buffer_distance_min, !overlay );
         read_and_set_or_throw<int>( overmap_forest_settings_jo, "river_floodplain_buffer_distance_max",
                                     overmap_forest_settings.river_floodplain_buffer_distance_max, !overlay );
+    }
+}
+
+static void load_overmap_ravine_settings(
+    const JsonObject &jo, overmap_ravine_settings &overmap_ravine_settings, const bool strict,
+    const bool overlay )
+{
+    if( !jo.has_object( "overmap_ravine_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_ravine_settings\": { … } required for default" );
+        }
+    } else {
+        JsonObject overmap_ravine_settings_jo = jo.get_object( "overmap_ravine_settings" );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "num_ravines",
+                                    overmap_ravine_settings.num_ravines, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_range",
+                                    overmap_ravine_settings.ravine_range, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_width",
+                                    overmap_ravine_settings.ravine_width, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_depth",
+                                    overmap_ravine_settings.ravine_depth, !overlay );
     }
 }
 
@@ -567,10 +588,45 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
+    load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
+
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
 
     region_settings_map[new_region.id] = new_region;
+}
+
+void check_region_settings()
+{
+    for( const std::pair<const std::string, regional_settings> &p : region_settings_map ) {
+        const std::string &region_name = p.first;
+        const regional_settings &region = p.second;
+        for( const std::pair<const std::string, map_extras> &p2 : region.region_extras ) {
+            const std::string extras_name = p2.first;
+            const map_extras &extras = p2.second;
+            if( extras.chance == 0 ) {
+                continue;
+            }
+            const weighted_int_list<std::string> &values = extras.values;
+            if( !values.is_valid() ) {
+                if( values.empty() ) {
+                    debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
+                              "Extras have nonzero chance but no extras are listed.",
+                              region_name, extras_name );
+                } else {
+                    std::string list_of_values =
+                        enumerate_as_string( values,
+                    []( const weighted_object<int, std::string> &w ) {
+                        return '"' + w.obj + '"';
+                    } );
+                    debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
+                              "Extras %s are listed, but all have zero weight.",
+                              region_name, extras_name,
+                              list_of_values );
+                }
+            }
+        }
+    }
 }
 
 void reset_region_settings()
@@ -678,17 +734,25 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
             continue;
         }
         JsonObject zonejo = zone.get_object();
+        map_extras &extras = region.region_extras[zone.name()];
 
         int tmpval = 0;
         if( zonejo.read( "chance", tmpval ) ) {
-            region.region_extras[zone.name()].chance = tmpval;
+            extras.chance = tmpval;
         }
 
         for( const JsonMember member : zonejo.get_object( "extras" ) ) {
             if( member.is_comment() ) {
                 continue;
             }
-            region.region_extras[zone.name()].values.add_or_replace( member.name(), member.get_int() );
+            extras.values.add_or_replace( member.name(), member.get_int() );
+        }
+
+        // It's possible that all the entries of the weighted list have their
+        // weights set to zero by this overlay.  In that case we want to reset
+        // the chance to zero.
+        if( !extras.values.is_valid() ) {
+            extras.chance = 0;
         }
     }
 
@@ -716,6 +780,8 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_overmap_forest_settings( jo, region.overmap_forest, false, true );
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
+
+    load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
 
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
@@ -925,7 +991,7 @@ void overmap_lake_settings::finalize()
     for( shore_extendable_overmap_terrain_alias &alias : shore_extendable_overmap_terrain_aliases ) {
         if( std::find( shore_extendable_overmap_terrain.begin(), shore_extendable_overmap_terrain.end(),
                        alias.alias ) == shore_extendable_overmap_terrain.end() ) {
-            debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_alises, but the value is not present in the shore_extendable_overmap_terrain.",
+            debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_aliases, but the value is not present in the shore_extendable_overmap_terrain.",
                       alias.alias.c_str() );
             continue;
         }

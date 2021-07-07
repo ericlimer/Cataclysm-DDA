@@ -16,11 +16,22 @@
     "coverage": 80,
     "encumbrance": 1,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "SKINTIGHT" ]
   },
   {
+    "id": "xl_arm_warmers",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL arm warmers", "str_pl": "pairs of XL arm warmers" },
+    "description": "Snug, soft cloth sleeves to keep your arms warm.  Made only for the largest of survivors.",
+    "weight": "49 g",
+    "volume": "350 ml",
+    "copy-from": "arm_warmers",
+    "flags": [ "SKINTIGHT", "OVERSIZE" ]
+  },
+  {
     "id": "army_top",
+    "repairs_like": "tank_top",
     "type": "ARMOR",
     "name": { "str": "camo tank top" },
     "description": "A sleeveless cotton shirt with camouflage dye.  Very easy to move in.",
@@ -34,27 +45,8 @@
     "color": "green",
     "covers": [ "torso" ],
     "coverage": 60,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
-  },
-  {
-    "id": "bikini_bottom",
-    "type": "ARMOR",
-    "name": { "str": "bikini bottom" },
-    "description": "A simple bikini bottom.",
-    "weight": "32 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "panties",
-    "color": "light_red",
-    "covers": [ "leg_l", "leg_r" ],
-    "coverage": 15,
-    "warmth": 5,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
     "id": "bikini_top",
@@ -71,7 +63,7 @@
     "color": "light_red",
     "covers": [ "torso" ],
     "coverage": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
@@ -90,7 +82,7 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -109,7 +101,7 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -128,7 +120,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 20,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -157,7 +149,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 25,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -186,7 +178,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 25,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -215,7 +207,7 @@
     "covers": [ "torso" ],
     "coverage": 15,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -234,11 +226,12 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 15,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "camisole",
+    "repairs_like": "tank_top",
     "type": "ARMOR",
     "name": { "str": "camisole" },
     "description": "A small camisole made from silk.  Typically used as an undergarment, they are light and easy to wear.",
@@ -253,7 +246,7 @@
     "color": "light_blue",
     "covers": [ "torso" ],
     "coverage": 45,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -272,7 +265,7 @@
     "covers": [ "torso" ],
     "coverage": 25,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ]
   },
   {
@@ -292,7 +285,7 @@
     "coverage": 25,
     "encumbrance": 5,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ]
   },
   {
@@ -312,7 +305,7 @@
     "coverage": 25,
     "encumbrance": 5,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "SKINTIGHT", "OVERSIZE" ]
   },
   {
@@ -332,11 +325,12 @@
     "coverage": 25,
     "encumbrance": 5,
     "warmth": 15,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "corset",
+    "repairs_like": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "leather corset" },
     "description": "A snug, black leather corset.  Has no pockets, but its thick material provides good protection from harm.",
@@ -374,7 +368,7 @@
     "coverage": 60,
     "encumbrance": 1,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "SKINTIGHT" ]
   },
   {
@@ -394,7 +388,7 @@
     "coverage": 60,
     "encumbrance": 3,
     "warmth": 40,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -434,7 +428,7 @@
     "coverage": 95,
     "encumbrance": 3,
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -454,7 +448,7 @@
     "coverage": 95,
     "encumbrance": 3,
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -474,7 +468,7 @@
     "coverage": 95,
     "encumbrance": 3,
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -493,7 +487,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 15,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -511,7 +505,7 @@
     "covers": [ "torso", "arm_l", "arm_r" ],
     "coverage": 95,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
@@ -530,7 +524,7 @@
     "covers": [ "torso" ],
     "coverage": 30,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
@@ -558,7 +552,7 @@
     "color": "light_gray",
     "covers": [ "torso" ],
     "coverage": 40,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
@@ -578,7 +572,7 @@
     "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ],
     "coverage": 100,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -597,7 +591,7 @@
     "covers": [ "torso" ],
     "coverage": 95,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.05,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
@@ -616,7 +610,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 45,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
@@ -635,7 +629,7 @@
     "covers": [ "torso" ],
     "coverage": 60,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -653,7 +647,7 @@
     "covers": [ "torso", "leg_l", "leg_r" ],
     "coverage": 90,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.02,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   }
 ]

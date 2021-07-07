@@ -139,10 +139,11 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_cut": 4,
-    "harvest": "triffid_small",
+    "harvest": "triffid_paralytic",
     "upgrades": { "age_grow": 14, "into": "mon_triffid" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "PARALYZEVENOM" ]
   },
   {
@@ -168,8 +169,9 @@
     "armor_bash": 10,
     "armor_cut": 4,
     "armor_bullet": 3,
-    "harvest": "triffid_large",
+    "harvest": "triffid_paralytic",
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
   },
   {
@@ -198,6 +200,7 @@
     "harvest": "triffid_queen",
     "special_attacks": [ [ "GROWPLANTS", 20 ] ],
     "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_fungaloid",
     "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]
   },
   {
@@ -249,7 +252,7 @@
     "armor_bash": 4,
     "armor_cut": 6,
     "armor_bullet": 5,
-    "harvest": "triffid_large",
+    "harvest": "triffid_fungal_fighter",
     "attack_effs": [
       { "id": "paralyzepoison", "//": "applying this multiple times makes intensity go up by 3 instead of 1", "duration": 33 },
       { "id": "paralyzepoison", "duration": 33 },
@@ -278,7 +281,7 @@
     "aggression": 100,
     "morale": 100,
     "melee_cut": 0,
-    "harvest": "triffid_large",
+    "harvest": "triffid_paralytic",
     "special_attacks": [ [ "SPIT_SAP", 3 ], [ "PARA_STING", 12 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "NOHEAD", "IMMOBILE" ]
